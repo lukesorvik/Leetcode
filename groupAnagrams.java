@@ -1,34 +1,45 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-class valid_anagram {
-
-    //using sorting, O(nlogn) time complexity, due to java's sort method being O(nlogn)
-    public boolean isAnagram2(String s, String t) {
-        if (s.length() != t.length()) {
-            return false;
-        }
-        char schars[] = s.toCharArray();
-        char tchars[] = t.toCharArray();
-
-        Arrays.sort(schars);
-        Arrays.sort(tchars);
-
-        for (int i = 0; i < schars.length; i++) {
-            if (schars[i] != tchars[i]) {
-                return false;
-            }
-        }
-
-        return true;
-
-        //sort the elements in both
-        //compare if the characters are the same 
+class groupAnagrams {
+    public static void main(String[] args) {
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        System.out.println(groupAnagrams(strs));
     }
 
+    public static List<List<String>> groupAnagrams(String[] strs) {
+
+        //given an array of strings group the anagrams together
+        
+        List<List<String>> result = new ArrayList<>(); //an arraylist of arraylists of strings, each element is an array of strings 
+
+        //for each string check if it is an anagram of another string
+
+        for (int i = 0; i < strs.length; i++) {
+            List<String> anagramsOfStringI = new ArrayList<>(); //create a new arraylist of strings to store the anagrams
+            anagramsOfStringI.add(strs[i]); //add the current string to the arraylist
+
+            //check every other string in the list of strings to see if it is an anagram of the current string
+            for (int j = i + 1; j < strs.length; j++) {
+                //if the strings are anagrams, add them to the same arraylist
+                if (isAnagram(strs[i], strs[j])) { //check if the two strings are anagrams
+                    
+                    anagramsOfStringI.add(strs[j]); //add the anagram to the arraylist
+                    
+                }
+            }
+            result.add(anagramsOfStringI); //add the arraylist of anagrams to the result arraylist
+        }
+
+        return result;
+        
+    }
+
+
     //using a hash tablem O(n) time complexity, since we iterate through the strings once, then iterate through the hash table once (2n = O(n))
-    public boolean isAnagram(String s, String t) {
+    public static boolean isAnagram(String s, String t) {
       Map<Character, Integer> count = new HashMap<>(); //create a hashmap, (character, integer)
 
          // Count the frequency of characters in string s
@@ -60,7 +71,4 @@ class valid_anagram {
         return true;
 
     }
-
- 
-    
 }
