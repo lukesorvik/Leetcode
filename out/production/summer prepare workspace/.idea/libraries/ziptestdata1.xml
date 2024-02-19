@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ziptestdata1">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/2023/web scrape python/.venv/Lib/site-packages/importlib_resources/tests/zipdata02/ziptestdata.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
