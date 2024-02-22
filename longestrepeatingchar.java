@@ -34,9 +34,10 @@
 
 public class longestrepeatingchar {
     public static void main(String[] args) {
-        String s = "AABABBA";
-        int k = 1;
-        System.out.println(characterReplacement(s, k));
+        
+        System.out.println(characterReplacement("ABBB", 2) + " should be 4");
+        System.out.println(characterReplacement("ABAB", 2) + " should be 4");
+        System.out.println(characterReplacement("AABABBA", 1) + " should be 4");
         
     }
 
@@ -54,6 +55,7 @@ public class longestrepeatingchar {
                     leftpointer++;
                 }
                 freebies = k; //reset freebies, we are looking at a new block!
+                current = c;
             }
 
             //if thing at right pointer is not the char we are looking for
