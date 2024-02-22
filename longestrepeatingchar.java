@@ -32,6 +32,9 @@
  * 
  */
 
+import java.util.HashMap;
+import java.util.*;
+
 public class longestrepeatingchar {
     public static void main(String[] args) {
         
@@ -43,34 +46,61 @@ public class longestrepeatingchar {
 
     public static int characterReplacement(String s, int k) {
         int longest = 0;
-        Character current = s.charAt(0);  //current character we are looking for duplicates of, initialize at first char in string
+        Map<Character, Integer> map = new HashMap<>(); //map to store the frequency of a character
         int leftpointer = 0;
-        int freebies = k;
+        int maxfreq = 0;
 
         for (int rightpointer =0; rightpointer< s.length(); rightpointer++) {
             Character c = s.charAt(rightpointer);
 
-            if (c != current && freebies <= 0) {
-                while (s.charAt(leftpointer) != c) {
-                    leftpointer++;
-                }
-                freebies = k; //reset freebies, we are looking at a new block!
-                current = c;
+            //if the character at the right pointer exists in the map
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c) +1); //increment the frequency by 1
             }
-
-            //if thing at right pointer is not the char we are looking for
-            if(c != current) {
-                freebies--; //decrement freebies
-                longest = Math.max(longest, rightpointer-leftpointer+1);
-            }
-
-            //thing at c is a duplicate of current char at left pointer
+            //character does not exist in the map
             else {
-                longest = Math.max(longest, rightpointer-leftpointer+1);
+                map.put(c, 1); //add the character to the map with a frequency of 1
             }
+
+            maxfreq = getMaxFreq(map); //get the max frequency of any character in the map
+
+            //if the length of the current block - the max frequency of any character in the block is greater than k
+            //length of block - max frequency of any character in the block = number of characters that are not the max frequency character
+            // # of chars that are not the most frequent should be <= k
+            //if it is not, we need to move the left pointer to the right, and decrement the frequency of the character at the left pointer by 1
+            //move the current block to the right
+            if ((rightpointer - leftpointer + 1) - maxfreq > k) {
+                //move the left pointer to the right
+                map.put(s.charAt(leftpointer), map.get(s.charAt(leftpointer)) - 1); //decrement the frequency of the character at the left pointer by 1
+                leftpointer++; //move the left pointer to the right
+            }
+
+            else {
+                //update the longest substring length
+                longest = Math.max(longest, rightpointer - leftpointer + 1);
+            }
+
+
+
         }
 
         return longest;
         
     }
+
+    //iterate over the map, return the max frequency of any character
+    //alphabet is max 26 characters so O(26) = O(1)
+    public static int getMaxFreq(Map<Character, Integer> map) {
+        Iterator<Map.Entry<Character, Integer>> mapIterator = map.entrySet().iterator();
+        int maxfreq = 0;
+        // Iterate over the map
+        while (mapIterator.hasNext()) {
+            int freq = mapIterator.next().getValue();
+
+           maxfreq = Math.max(maxfreq, freq);
+            // Process the entry
+        }
+        return maxfreq;
+    }
+
 }
