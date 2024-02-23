@@ -11,57 +11,46 @@ import java.util.*;
 
 public class longestpalindromesubstring {
     public static void main(String[] args) {
-        System.out.println(longestPalindrome("bb") + " should be bb");
-        System.out.println(longestPalindrome("babad") + " should be bab or aba");
+        //System.out.println(longestPalindrome("bb") + " should be bb");
+        //System.out.println(longestPalindrome("babad") + " should be bab or aba");
         System.out.println(longestPalindrome("cbbd") + " should be bb");
         System.out.println(longestPalindrome("a") + " should be a");
         System.out.println(longestPalindrome("ac") + " should be a");
     }
     public static String longestPalindrome(String s) {
-
-        int maxLen = 0;
-        String longestStr = "";
-        String substring = "";
-        //Set<String> set = new HashSet<>(); 
-
-        //base case return self 
-        if (s.length() == 1) {
+        //base case just one char
+        if (s.length() <= 1) {
             return s;
         }
 
-        //iterate over every possible substring o(n^2), lp = left pointer, rp =right pointer
-       for (int lp = 0; lp < s.length(); lp++) {
-        //we add the maxlength since a bigger palindrome substring cannot end at indices <maxlen (since the substring must be bigger than the max)
-            for (int rp = lp + maxLen; rp <= s.length(); rp++) {
-                substring =  s.substring(lp, rp);
-                //if the rightpointer j - leftpointer i > maxlength (then the substring if it is bigger than max palendrome)
-                //if the substring is also a palindrome
-                if (rp - lp > maxLen && ispalindrome(substring)) {
-                    maxLen = substring.length(); //maxlength = length of substring (leftpointer- rightpointer)
-                    longestStr = substring; //the maxstr = the substring
-                }
+        //java .subtring is not inclusive for end bound
+        String maxStr = s.substring(0, 1); //max string we have seen so far, default set to "a", from index 0 to 0
+
+
+        for (int i = 0; i < s.length() - 1; i++) {
+            String odd = expandFromCenter(s, i, i); //get the odd string
+            String even = expandFromCenter(s, i, i + 1); //get the even
+
+            if (odd.length() > maxStr.length()) { //if the odd length is bigger than the max
+                maxStr = odd;
+            }
+            if (even.length() > maxStr.length()) { //if the even length is bigger than the max
+                maxStr = even;
             }
         }
 
-        return longestStr;
-    
+        return maxStr; //update return string
     }
 
-    public static boolean ispalindrome(String s) {
-        s.toLowerCase(); //convert to lowercase so all same char val
-        char[] strarr = s.toCharArray(); 
-
-        //similar to having 1 pointer point to start and 1 pointer point to the end
-        //compare first char to last to see if equal
-        for (int i = 0;i < s.length()/2; i++) {
-            Character first = strarr[i];
-            Character last = strarr[s.length()-i-1]; //-1 to account for size 3 being index [0,1,2]
-            if(first != last) {
-                return false;
-            }
-
+    private static String expandFromCenter(String s, int left, int right) {
+        //while left & right are in bounds, and the char at left & right are valid palindromes (same), continue search 
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            String debug = s.substring(left, right);
+            left--;
+            right++;
         }
-        //did not find any bad pairs
-        return true;
+        //loop will end with left -1 that it should be and right +1 than it should be!, substring(left,right) right is exclusive so it dont matter
+        //max palindrome found from that center
+        return s.substring(left + 1, right); //+1 since out of bounds for our base case
     }
 }
