@@ -7,7 +7,6 @@
  * 
  */
 
-import java.util.HashSet;
 import java.util.*;
 
 public class longestpalindromesubstring {
@@ -20,39 +19,28 @@ public class longestpalindromesubstring {
     }
     public static String longestPalindrome(String s) {
 
-        int longest = 0;
-        int leftpointer = 0;
+        int maxLen = 0;
         String longestStr = "";
-        String subString = "";
-        Set<String> set = new HashSet<>(); 
+        String substring = "";
+        //Set<String> set = new HashSet<>(); 
 
+        //base case return self 
         if (s.length() == 1) {
             return s;
         }
 
-        for (int rightpointer =0; rightpointer <s.length(); rightpointer++ ) {
-            subString = s.substring(leftpointer, rightpointer+1); //make a substring of current block
-            int templeft = leftpointer;
-            //while it is not a palindrome iterate the left pointer 
-            while (ispalindrome(s.substring(templeft,rightpointer)) == false  && leftpointer < rightpointer) {
-                templeft++;
-                subString = s.substring(templeft,rightpointer+1);
-            }
-
-            if (set.contains(subString) == false || ispalindrome(subString) ) {
-                
-                 set.add(subString); //add the string to the set of valid palindromes
-                    
-                //if the substring that is a palindrome is the longest we have seen
-                if (subString.length() > longest) {
-                        longestStr = subString;
-                        longest = subString.length();
+        //iterate over every possible substring o(n^2), lp = left pointer, rp =right pointer
+       for (int lp = 0; lp < s.length(); lp++) {
+        //we add the maxlength since a bigger palindrome substring cannot end at indices <maxlen (since the substring must be bigger than the max)
+            for (int rp = lp + maxLen; rp <= s.length(); rp++) {
+                substring =  s.substring(lp, rp);
+                //if the rightpointer j - leftpointer i > maxlength (then the substring if it is bigger than max palendrome)
+                //if the substring is also a palindrome
+                if (rp - lp > maxLen && ispalindrome(substring)) {
+                    maxLen = substring.length(); //maxlength = length of substring (leftpointer- rightpointer)
+                    longestStr = substring; //the maxstr = the substring
                 }
-                    
-               
             }
-           
-
         }
 
         return longestStr;
