@@ -37,9 +37,14 @@ public class threesum {
         int n = nums.length;
         List<List<Integer>> output = new ArrayList();
         HashSet<HashSet<Integer>> sets = new HashSet<>(); //set to check for duplicates, set of sets
+        HashSet<Integer> setofI = new HashSet<>(); //set of first elements we have already checked
+
 
         //iterate starting at first element, we do this n-2 times since we are looking at 3 elements at a time
         for(int i = 0; i < n -2; i++){
+            if (setofI.contains(nums[i])) { //if we have already checked this element, skip it
+                continue;
+            }
             //iterate starting at second element, we do this n-1 times since we are looking at 3 elements at a time
             //start at i+1 since we don't want to repeat the same element (every combination needs to be unique)
             for(int j = i+1; j< n-1; j++) {
@@ -62,6 +67,7 @@ public class threesum {
                     }
                 }
             }
+            setofI.add(nums[i]); //add the first element to the set of first elements we have already checked
         }
         return output;   
     }
