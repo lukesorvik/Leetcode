@@ -22,6 +22,9 @@ the elements in each combo are the same, so we only return one of them
 we check this using a set
 
  * 
+ * 
+ * 
+ * this solution is bad!!! O(n^3) runtime worst case
  */
 
 public class threesum {
