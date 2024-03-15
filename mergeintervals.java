@@ -57,8 +57,10 @@ for each array j arr[j][i]
     
  */
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class mergeintervals {
     public static void main(String[] args) {
@@ -73,10 +75,9 @@ public class mergeintervals {
 
 
     public int[][] merge(int[][] intervals) {
-        int[][] result = new int[intervals.length][2]; //initialize result array
         Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]) ); //sort the array
 
-        //List<int[]> list = new ArrayList<>(); //arraylist to store the result
+        List<int[]> list = new ArrayList<>(); //arraylist to store the result
 
         int prevLB = intervals[0][0];
         int prevUB= intervals[0][1];
@@ -94,7 +95,7 @@ public class mergeintervals {
                 //if at last element in the array, add the last range to the result
                 if(j == intervals.length - 1) {
                     int[] range = {prevLB, prevUB};
-                    result[outputIndex] = range;
+                    list.add(outputIndex, range);
                 }
             }
 
@@ -102,7 +103,7 @@ public class mergeintervals {
             else if (thisLB >= prevUB) {
                 //add old range to result
                 int[] range = {prevLB, prevUB};
-                result[outputIndex] = range;
+                list.add(outputIndex, range);
                 outputIndex++;
                 //update prevLB and prevUB to current range
                 prevLB = thisLB;
@@ -110,15 +111,10 @@ public class mergeintervals {
                 //if at last element in the array, add the last range to the result
                 if(j == intervals.length - 1) {
                     int[] range2 = {thisLB, thisUB};
-                    result[outputIndex] = range2;
-                 }
-            }
-            
-            
-            
+                    list.add(outputIndex, range2);
+                }
+            }   
         }
-
-
-            return result;
+            return list.toArray(new int[list.size()][]);
     }
 }
