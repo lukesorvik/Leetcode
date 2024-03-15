@@ -2,11 +2,17 @@ import java.util.Arrays;
 import java.util.*;
 import java.util.Collections;
 
+
+/*
+ * 
+ * leetcode 2268
+ * 
+ */
 public class validkeypad {
     public static void main(String[] args) {
         System.out.println(findMinClicks("abc") + " should be 3");
         System.out.println(findMinClicks("aabbcc") + " should be 6");
-        System.out.println(findMinClicks("aabbccddeeffgghhii") + " should be 9");
+        System.out.println(findMinClicks("aabbccddeeffgghhii") + " should be 18");
     }
 
 
@@ -31,7 +37,7 @@ public class validkeypad {
         //size 26 array so iterate over the sorted
         for(int i = 0; i< 26 ; i++){
             clicks += multiplier * lettermap[i]; 
-            if (i %9 ==0) {
+            if (i %9 ==0 && i != 0) {
                 ++multiplier;
             }
         }
