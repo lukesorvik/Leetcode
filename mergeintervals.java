@@ -76,12 +76,12 @@ public class mergeintervals {
 
     public int[][] merge(int[][] intervals) {
         Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]) ); //sort the array
-
+        //since we sorted the array based on the lower bound of each range, we can now iterate through the array and merge the ranges
+        //so we can assume the next range will be greater or equal to the the previous range
+        
         List<int[]> list = new ArrayList<>(); //arraylist to store the result
-
         int prevLB = intervals[0][0];
         int prevUB= intervals[0][1];
-        int outputIndex = 0;
 
         for (int j = 0; j < intervals.length; j++) {
             int thisLB = intervals[j][0];
@@ -95,26 +95,26 @@ public class mergeintervals {
                 //if at last element in the array, add the last range to the result
                 if(j == intervals.length - 1) {
                     int[] range = {prevLB, prevUB};
-                    list.add(outputIndex, range);
+                    list.add(range);
                 }
             }
 
-            //ranges do not overlap , add last range to result, update prevLB and prevUB to current range
+            //ranges do not overlap , add last range to result, update prevLB and prevUB to current range (we start looking for new overlapping ranges)
             else if (thisLB >= prevUB) {
                 //add old range to result
                 int[] range = {prevLB, prevUB};
-                list.add(outputIndex, range);
-                outputIndex++;
+                list.add(range);
                 //update prevLB and prevUB to current range
                 prevLB = thisLB;
                 prevUB = thisUB;
                 //if at last element in the array, add the last range to the result
                 if(j == intervals.length - 1) {
                     int[] range2 = {thisLB, thisUB};
-                    list.add(outputIndex, range2);
+                    list.add(range2);
                 }
             }   
         }
+        //convert the arraylist to an array and return
             return list.toArray(new int[list.size()][]);
     }
 }
