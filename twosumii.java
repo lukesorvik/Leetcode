@@ -70,18 +70,22 @@ public class twosumii {
         int right = numbers.length - 1; //right pointer
 
         while (left<right) { //while we are in bounds 
-            while (numbers[left] + numbers[right] > target && left<right) {
+            //if the sum of the two elements is greater than the target increment the right pointer
+            while (numbers[left] + numbers[right] > target && left<right) { 
                 right--;
             }
-            while (numbers[left] + numbers[right] < target && left<right) {
+            //if the sum of the two elements is less than the target increment the left pointer
+            while (numbers[left] + numbers[right] < target && left<right) { 
                 left++;
             }
+            //if the sum of the two elements is equal to the target return the indices
             if (numbers[left] + numbers[right] == target) {
                 answer[0] = left+1;
                 answer[1] = right+1;
-                return answer;
+                return answer; //return the indices found
             }
         }
+        //return empty array if no indices found
         return answer;
         
     }
