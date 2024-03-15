@@ -62,8 +62,8 @@ import java.util.Comparator;
 
 public class mergeintervals {
     public static void main(String[] args) {
-        //int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
-        int[][] intervals = {{1,4},{4,5}};
+        int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
+        //int[][] intervals = {{1,4},{4,5}};
         mergeintervals test = new mergeintervals();
         int[][] result = test.merge(intervals);
         for (int i = 0; i < result.length; i++) {
@@ -75,6 +75,8 @@ public class mergeintervals {
     public int[][] merge(int[][] intervals) {
         int[][] result = new int[intervals.length][2]; //initialize result array
         Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]) ); //sort the array
+
+        //List<int[]> list = new ArrayList<>(); //arraylist to store the result
 
         int prevLB = intervals[0][0];
         int prevUB= intervals[0][1];
@@ -89,21 +91,29 @@ public class mergeintervals {
                 if (thisUB > prevUB) {
                     prevUB = Math.max(prevUB, thisUB);
                 }
+                //if at last element in the array, add the last range to the result
+                if(j == intervals.length - 1) {
+                    int[] range = {prevLB, prevUB};
+                    result[outputIndex] = range;
+                }
             }
 
-            //ranges do not overlap , add last range to result
+            //ranges do not overlap , add last range to result, update prevLB and prevUB to current range
             else if (thisLB >= prevUB) {
+                //add old range to result
                 int[] range = {prevLB, prevUB};
                 result[outputIndex] = range;
                 outputIndex++;
+                //update prevLB and prevUB to current range
                 prevLB = thisLB;
                 prevUB = thisUB;
+                //if at last element in the array, add the last range to the result
+                if(j == intervals.length - 1) {
+                    int[] range2 = {thisLB, thisUB};
+                    result[outputIndex] = range2;
+                 }
             }
-            //if at last element in the array, add the last range to the result
-            if(j == intervals.length - 1) {
-                int[] range = {thisLB, thisUB};
-                result[outputIndex] = range;
-            }
+            
             
             
         }
