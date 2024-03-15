@@ -69,8 +69,7 @@ public class twosumii {
         int left = 0; //left pointer
         int right = numbers.length - 1; //right pointer
 
-        for (int i = left; left < right; left++) {
-            //int sum = numbers[left] + numbers[right];
+        while (left<right) { //while we are in bounds 
             while (numbers[left] + numbers[right] > target && left<right) {
                 right--;
             }
@@ -80,8 +79,10 @@ public class twosumii {
             if (numbers[left] + numbers[right] == target) {
                 answer[0] = left+1;
                 answer[1] = right+1;
+                return answer;
             }
         }
         return answer;
+        
     }
 }
