@@ -12,6 +12,11 @@ import java.util.Map;
          * instead of iterating through the array again to find the complement, we can use a hash table to store the elements and their index
          * so if the complement exists such that nums[i] + complement = target, we can return the indices of the two
          * 
+         * if we iterate through the array and find the complement the runtime is O(n^2)
+         * if we use a hash table to store the elements and their index, the runtime is O(2n), 
+         * since we only iterate through the array once to add <element ,index> to the dictionary
+         * then we loop one more time to get the complement
+         * 
          */
 public class twosumrev {
      public static int[] twoSum(int[] nums, int target) {
